@@ -16,15 +16,15 @@ El programa saca tres resultados:
 
 # Resultados
 <p>
-<h2>Original
+<h2>Original</h2>
 <br>
 <img src="output/original/1_original.png" alt="drawing" width="350" height="350"/>
 <br>
-Polvo
+<h2>Polvo</h2>
 <br>
 <img src="output/polvo/1_polvo.png" alt="drawing" width="350" height="350"/>
 <br>
-Ajedrez</h2>
+<h2>Ajedrez</h2>
 <br>
 <img src="output/ajedrez/1_ajedrez.png" alt="drawing" width="350" height="350"/>
 </p>

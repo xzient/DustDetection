@@ -37,7 +37,7 @@ directory = os.fsencode('images/')
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
     print(filename)
-    nombre, _ = filename.split('.')
+    nombre, _ = filename.rsplit('.', 1)
 
     original = hp.redimensionar_image("images/" + filename)
     original.save('output/original/' + nombre + '_original.png')
@@ -48,5 +48,9 @@ for file in os.listdir(directory):
     cuadro_porcentajes = hp.cuadro_porcentajes(mask)
     ajedrez = hp.colorear_imagen(original, cuadro_porcentajes, cuadriculado=True)
     ajedrez.save('output/ajedrez/' + nombre + '_ajedrez.png')
+
+    hp.json_report( nombre )
+
+
 ################################################################################
 ################################################################################

@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image, ImageOps
 import torch
 import cv2
+import json
 
 ################################################################################
 #                                                         
@@ -153,7 +154,7 @@ def colorear_imagen(img, cuadro_porcentajes, cuadriculado=False):
       prev_y = lim_y
 
     return VERDE
-  #-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
   # Acciones
   if cuadriculado:
     img = cuadricular(img)
@@ -163,5 +164,38 @@ def colorear_imagen(img, cuadro_porcentajes, cuadriculado=False):
   ROJO     = np.array(tint_image(img, "#EE3A2C").convert( 'RGB' ))
 
   return Image.fromarray(coloreado(cuadro_porcentajes, VERDE, AMARILLO, ROJO))
+
+
+
+
+def json_report(filename):
+
+  report = {
+      'filename':filename,
+      'camera': "TO DO",
+      'date': '2024-07-18',
+      'long': "TO DO",
+      'latitude': "TO DO",
+      'altitude': "TO DO",
+      'pixels': 1068 * 1068,
+      'luminosity': "TO DO",
+      'dust percentage average': "TO DO",
+      'dust max': "TO DO",
+      'dust min': "TO DO",
+      'no. red boxes': "TO DO",
+      'no. yellow boxes': "TO DO",
+      'no. green boxes': "TO DO",
+      'E1': False, # TODO
+      'E2': False, # TODO
+      'E3': False, # TODO
+      'E4': False, # TODO
+    }
+
+  file_save = "output/report/" + filename + '_report.json'
+  save_file = open(file_save, "w")
+  # with open('data.json', 'w', encoding='utf-8') as f:
+  json.dump(report, save_file, ensure_ascii=False, indent=4)
+
+  #-----------------------------------------------------------------------------
 ################################################################################
 ################################################################################
