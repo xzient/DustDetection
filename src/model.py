@@ -17,9 +17,11 @@ model_name = 'DeepLabV3-MobileNet-V3-Large'
 dataset_name = 'URDE_dataset_897'
 direccion_modelo = "src/Pretrained/"
 
-model.load_state_dict(torch.load(direccion_modelo + 'DeepLabV3-MobileNet-V3-Large_dataset_897.pth'))
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+model.load_state_dict(torch.load(direccion_modelo + 'DeepLabV3-MobileNet-V3-Large_dataset_897.pth', map_location=torch.device(device)))
 model.eval()
-model.cuda()
+model.to(device)#cuda()
 
 totalframecount = 1
 idx = 0
@@ -37,7 +39,7 @@ directory = os.fsencode('images/')
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
     print(filename)
-    nombre, _ = filename.rsplit('.', 1)
+    nombre, _ = filename.split('.')
 
     original = hp.redimensionar_image("images/" + filename)
     original.save('output/original/' + nombre + '_original.png')
@@ -49,8 +51,6 @@ for file in os.listdir(directory):
     ajedrez = hp.colorear_imagen(original, cuadro_porcentajes, cuadriculado=True)
     ajedrez.save('output/ajedrez/' + nombre + '_ajedrez.png')
 
-    hp.json_report( nombre )
-
-
+    hp.json_report(nombre, cuadro_porcentajes)
 ################################################################################
 ################################################################################

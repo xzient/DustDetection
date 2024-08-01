@@ -6,6 +6,7 @@
 ################################################################################
 import numpy as np
 from PIL import Image, ImageOps
+from datetime import datetime
 import torch
 import cv2
 import json
@@ -168,23 +169,24 @@ def colorear_imagen(img, cuadro_porcentajes, cuadriculado=False):
 
 
 
-def json_report(filename):
+def json_report(filename, porcentajes):
+  print("\tJSON")
 
   report = {
       'filename':filename,
       'camera': "TO DO",
-      'date': '2024-07-18',
+      'date': datetime.today().strftime("%Y-%m-%d"),
       'long': "TO DO",
       'latitude': "TO DO",
       'altitude': "TO DO",
       'pixels': 1068 * 1068,
       'luminosity': "TO DO",
-      'dust percentage average': "TO DO",
-      'dust max': "TO DO",
-      'dust min': "TO DO",
-      'no. red boxes': "TO DO",
-      'no. yellow boxes': "TO DO",
-      'no. green boxes': "TO DO",
+      'dust percentage average': np.mean(porcentajes),
+      'dust max': porcentajes.max(),
+      'dust min': porcentajes.min(),
+      'no. red boxes':len(porcentajes[porcentajes > 15]),
+      'no. yellow boxes': len(porcentajes[(porcentajes > 5) & (porcentajes <= 15)]),
+      'no. green boxes':len(porcentajes[porcentajes <= 5]),
       'E1': False, # TODO
       'E2': False, # TODO
       'E3': False, # TODO
