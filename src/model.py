@@ -5,10 +5,22 @@
 # 2024-05-29
 ################################################################################
 import helpers as hp
+import get_images as gi
 import os
 import torch
+from pathlib import Path
 from torchvision.transforms import transforms
 from torchvision.models.segmentation import deeplabv3_mobilenet_v3_large
+################################################################################
+#                                                         
+################################################################################
+# Get images
+dd, hh, mm = gi.get_today_str()
+sub_directory = dd + '-' + str(hh).zfill(2) + '-' +str(mm).zfill(2) + '/'
+
+print(sub_directory)
+
+gi.get_images(sub_directory)
 ################################################################################
 #                                                         
 ################################################################################
@@ -34,23 +46,28 @@ img_transform = transforms.Compose([
 ################################################################################
 #                                                         
 ################################################################################
-directory = os.fsencode('images/')
+directory = os.fsencode('images/' + sub_directory)
     
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
     print(filename)
     nombre, _ = filename.split('.')
 
-    original = hp.redimensionar_image("images/" + filename)
-    original.save('output/original/' + nombre + '_original.png')
+    original = hp.redimensionar_image("images/"  + sub_directory + filename)
+
+    Path( 'output/original/' + sub_directory).mkdir(parents=True, exist_ok=True)
+    original.save('output/original/'  + sub_directory + nombre + '_original.png')
 
     polvo, mask = hp.identificar_polvo(original, model, img_transform)
-    polvo.save('output/polvo/' + nombre + '_polvo.png')
+    Path( 'output/polvo/' + sub_directory).mkdir(parents=True, exist_ok=True)
+    polvo.save('output/polvo/'  + sub_directory + nombre + '_polvo.png')
 
     cuadro_porcentajes = hp.cuadro_porcentajes(mask)
     ajedrez = hp.colorear_imagen(original, cuadro_porcentajes, cuadriculado=True)
-    ajedrez.save('output/ajedrez/' + nombre + '_ajedrez.png')
+    Path( 'output/ajedrez/' + sub_directory).mkdir(parents=True, exist_ok=True)
+    ajedrez.save('output/ajedrez/' + sub_directory  + nombre + '_ajedrez.png')
 
-    hp.json_report(nombre, cuadro_porcentajes)
+    Path( 'output/report/' + sub_directory).mkdir(parents=True, exist_ok=True)
+    hp.json_report(nombre, cuadro_porcentajes, sub_directory)
 ################################################################################
 ################################################################################

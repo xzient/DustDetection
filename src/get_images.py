@@ -4,6 +4,7 @@
 from urllib.parse import urlparse
 import datetime
 import requests
+from pathlib import Path
 from bs4 import BeautifulSoup
 
 # !pip install beautifulsoup4 requests
@@ -31,14 +32,17 @@ def scrape_image(url, filename, num):
     f.write(img_response.content)
   print(f"Image saved as {filename}")
 
-
-url = "https://www.wyoroad.info/highway/webcameras/view?site=I80PineBluffs"  # Replace with the actual website URL
-filename_base = "Wyoming"  
-date, hour, minute = get_today_str()
-date_prefix = date + "_" + str(hour) + "_" + str(minute)
-
-drop_data = "images/"
-
-for i in range(2,5):
+def get_images(directory, url=None):
+  url = "https://www.wyoroad.info/highway/webcameras/view?site=I80PineBluffs" if url == None else url  # Replace with the actual website URL
   
-  scrape_image(url, drop_data + filename_base + "_" + date_prefix + "_" + str(i) + ".jpg", i)
+  Path( "images/" + directory).mkdir(parents=True, exist_ok=True)
+  
+  filename_base = "Wyoming"  
+  date, hour, minute = get_today_str()
+  date_prefix = date + "_" + str(hour) + "_" + str(minute)
+
+  drop_data = "images/" + directory 
+
+  for i in range(2,5):
+    
+    scrape_image(url, drop_data + filename_base + "_" + date_prefix + "_" + str(i) + ".jpg", i)

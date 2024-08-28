@@ -1,4 +1,4 @@
-################################################################################
+ ################################################################################
 # DustDetection 
 # helpers.py
 # Xavier Zientarski
@@ -169,7 +169,7 @@ def colorear_imagen(img, cuadro_porcentajes, cuadriculado=False):
 
 
 
-def json_report(filename, porcentajes):
+def json_report(filename, porcentajes, directory):
   print("\tJSON")
 
   report = {
@@ -193,7 +193,7 @@ def json_report(filename, porcentajes):
       'E4': False, # TODO
     }
 
-  file_save = "output/report/" + filename + '_report.json'
+  file_save = "output/report/" + directory + filename + '_report.json'
   save_file = open(file_save, "w")
   # with open('data.json', 'w', encoding='utf-8') as f:
   json.dump(report, save_file, ensure_ascii=False, indent=4)
